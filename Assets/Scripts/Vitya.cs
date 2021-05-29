@@ -8,6 +8,7 @@ public class Vitya : GridBehaviour
 {
     [SerializeField] private EventManager eventmgr;
     public AudioManager audioManager;
+    public static bool isThrown = false;
 
     public void Start()
     {
@@ -43,11 +44,12 @@ public class Vitya : GridBehaviour
 
     public override void OnCollidedWall(Vector2 collisionDirection)
     {
-
+        Vitya.isThrown = false;
     }
 
     override public void OnStepWalked()
     {
+        if (isThrown) return;
         MovementDirection = Vector2.zero;
     }
 }

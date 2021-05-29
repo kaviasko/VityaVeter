@@ -40,6 +40,9 @@ public class Thrower : GridTriggerBehaviour
 
     public override void OnBodyStepped(GridBehaviour other)
     {
+        if (other.gameObject.CompareTag("Player")) {
+            Vitya.isThrown = true;
+        }
         Vector2 throwDirection = Vector2.zero;
         switch (orientation)
         {
