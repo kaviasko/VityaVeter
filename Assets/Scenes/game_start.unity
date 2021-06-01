@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726d7bbedd7af8f47ae77152f4409433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hideOnMenu: 01000000000000000000000000000000000000000000000001
+  hideOnMenu: 01000000000000000000000000000000000000000000000000000001
 --- !u!114 &363964332 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4369392621896150495, guid: 2a105906dc8385542b7d9c7e99f36896,
@@ -770,7 +770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726d7bbedd7af8f47ae77152f4409433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hideOnMenu: 00000101010101010101010101010101010101010101010001
+  hideOnMenu: 00000101010101010101010101010101010101010101010101010001
 --- !u!1 &898748254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,7 +1099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726d7bbedd7af8f47ae77152f4409433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hideOnMenu: 01010000000000000000000000000000000000000000000101
+  hideOnMenu: 01010000000000000000000000000000000000000000000000000101
 --- !u!1 &1475963613
 GameObject:
   m_ObjectHideFlags: 0

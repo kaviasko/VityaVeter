@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5379884830593231619}
   - component: {fileID: 5379884830593231622}
   - component: {fileID: 5379884830593231621}
-  - component: {fileID: 5379884830593231620}
   - component: {fileID: 5744946757094033935}
   m_Layer: 0
   m_Name: Text
@@ -36,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -187.61797, y: 181.91785}
+  m_AnchoredPosition: {x: -325.37, y: 276.1}
   m_SizeDelta: {x: 169.726, y: 26.1097}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5379884830593231622
@@ -81,19 +80,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u0423\u0440\u043E\u0432\u0435\u043D\u044C "
---- !u!114 &5379884830593231620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5379884830593231618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 726d7bbedd7af8f47ae77152f4409433, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hideOnMenu: 
 --- !u!114 &5744946757094033935
 MonoBehaviour:
   m_ObjectHideFlags: 0
