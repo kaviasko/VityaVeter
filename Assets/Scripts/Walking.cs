@@ -17,11 +17,13 @@ public class Walking : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        //SwipeDetector.OnSwipe += SwipeMovement;
     }
 
     void Start()
     {
         StartCoroutine(InputCoroutine());
+        //SwipeDetector.OnSwipe += SwipeMovement;
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -39,7 +41,98 @@ public class Walking : MonoBehaviour
         }
     }
 
-    private IEnumerator InputCoroutine()
+    private IEnumerator InputCoroutine() {
+
+        while (true)
+        {
+            bool AnyKey()
+            {
+                return Input.anyKey;
+            }
+            if (tut != null && tut.getActive()) yield return new WaitUntil(AnyKey);
+            bool IsKeyDown()
+            {
+                return SwipeDetector.up
+                    || SwipeDetector.down
+                    || SwipeDetector.left
+                    || SwipeDetector.right;
+            }
+            yield return new WaitUntil(IsKeyDown);
+            Vector3 direction =
+                 SwipeDetector.up ? Vector3.up :
+                 SwipeDetector.down ? Vector3.down :
+                 SwipeDetector.left ? Vector3.left :
+                 SwipeDetector.right ? Vector3.right :
+                 Vector3.zero;
+            if (SwipeDetector.right) spriterenderer.flipX = false;
+            if (SwipeDetector.left) spriterenderer.flipX = true;
+            Vector3 newPosition = transform.position + direction;
+
+            if (!CanWalkTo(direction)) continue;
+
+            eventManager.WindStarted.Invoke(direction);
+            yield return FindObjectOfType<GridManager>().PlayUntilEveryoneHalt();
+        }
+    }
+
+    /*private void SwipeMovement(SwipeData data)
+    {
+        StartCoroutine(SwipeCoroutine2());
+
+        IEnumerator SwipeCoroutine2()
+        {
+            bool AnyKey()
+            {
+                return Input.anyKey;
+            }
+            if (tut != null && tut.getActive()) yield return new WaitUntil(AnyKey);
+
+            Vector3 direction =
+                                data.Direction == SwipeDirection.Up ? Vector3.up :
+                                data.Direction == SwipeDirection.Down ? Vector3.down :
+                                data.Direction == SwipeDirection.Left ? Vector3.left :
+                                data.Direction == SwipeDirection.Right ? Vector3.right :
+                                Vector3.zero;
+            if (data.Direction == SwipeDirection.Right) spriterenderer.flipX = false;
+            if (data.Direction == SwipeDirection.Left) spriterenderer.flipX = true;
+
+            eventManager.WindStarted.Invoke(direction);
+            yield return FindObjectOfType<GridManager>().PlayUntilEveryoneHalt();
+        }
+
+        IEnumerator SwipeCouroutine()
+        {
+            bool AnyKey()
+            {
+                return Input.anyKey;
+            }
+            if (tut != null && tut.getActive()) yield return new WaitUntil(AnyKey);
+
+            bool IsTouched()
+            {
+                return data.Direction == SwipeDirection.Up
+                    || data.Direction == SwipeDirection.Down
+                    || data.Direction == SwipeDirection.Left
+                    || data.Direction == SwipeDirection.Right;
+            }
+            yield return new WaitUntil(IsTouched);
+            Vector3 direction =
+                                data.Direction == SwipeDirection.Up ? Vector3.up :
+                                data.Direction == SwipeDirection.Down ? Vector3.down :
+                                data.Direction == SwipeDirection.Left ? Vector3.left :
+                                data.Direction == SwipeDirection.Right ? Vector3.right :    
+                                Vector3.zero;
+            if (data.Direction == SwipeDirection.Right) spriterenderer.flipX = false;
+            if (data.Direction == SwipeDirection.Left) spriterenderer.flipX = true;
+
+            Vector3 newPosition = transform.position + direction;
+            //if (!CanWalkTo(direction)) continue;
+            eventManager.WindStarted.Invoke(direction);
+            yield return FindObjectOfType<GridManager>().PlayUntilEveryoneHalt();
+        }
+    }*/
+
+    /*private IEnumerator InputCoroutine(SwipeData data)
     {
         while (true)
         {
@@ -73,7 +166,7 @@ public class Walking : MonoBehaviour
             eventManager.WindStarted.Invoke(direction);
             yield return FindObjectOfType<GridManager>().PlayUntilEveryoneHalt();
         }
-    }
+    }*/
 
     private void Align()
     {
