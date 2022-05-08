@@ -68,5 +68,6 @@ public class Thrower : GridTriggerBehaviour
                 }
         }
         other.MovementDirection = throwDirection;
+        other.Priority++;
     }
 }

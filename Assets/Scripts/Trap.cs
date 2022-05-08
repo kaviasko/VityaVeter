@@ -16,6 +16,12 @@ public class Trap : GridBehaviour
         audioManager = FindObjectOfType<AudioManager>();
     }
 
+    public override void OnMoveStarted()
+    {
+        Priority = int.MaxValue;
+        MovementDirection = Vector2.zero;
+    }
+
     public override void OnCollidedBody(Vector2 collisionDirection, GridBehaviour other, bool isMyFault)
     {
         if (isOccupied) return;

@@ -9,6 +9,7 @@ public abstract class GridBehaviour : MonoBehaviour
     public Vector2 MovementDirection { get; set; }
     public int Priority { get; set; }
     public bool Removed => removed;
+    public Vector2 Destination => Position + MovementDirection;
 
     public abstract void OnCollidedWall(Vector2 collisionDirection);
     public abstract void OnCollidedBody(Vector2 collisionDirection, GridBehaviour other, bool isMyFault);
@@ -49,5 +50,26 @@ public abstract class GridBehaviour : MonoBehaviour
     public void OnDestroy()
     {
         grid.RemoveBody(this);
+    }
+
+    public virtual void OnMoveStarted()
+    {
+    }
+}
+
+public struct PriorityComparer : IComparer<GridBehaviour>
+{
+    public int Compare(GridBehaviour a, GridBehaviour b)
+    {
+        if (a == null || b == null) return 0;
+
+        int priorityDifference = a.Priority - b.Priority;
+        if (priorityDifference != 0) return priorityDifference;
+
+        int xDifference = Mathf.RoundToInt(a.Position.x - b.Position.x);
+        if (xDifference != 0) return xDifference;
+
+        int yDifference = Mathf.RoundToInt(a.Position.y - b.Position.y);
+        return yDifference;
     }
 }

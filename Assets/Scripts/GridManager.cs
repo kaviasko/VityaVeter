@@ -39,17 +39,8 @@ public class GridManager : MonoBehaviour
 
     private IEnumerator MoveOneStep(List<GridBehaviour> bodiesToMove, List<GridTriggerBehaviour> throwers)
     {
-        foreach (GridBehaviour body in bodiesToMove)
-        {
-            Vector2 destination = body.Position + body.MovementDirection.normalized;
-            if (IsWall(destination))
-            {
-                body.MovementDirection = Vector2.zero;
-                body.OnCollidedWall(destination - body.Position);
-                continue;
-            }
-        }
-        CheckBodyToBody(bodiesToMove);
+        ResolveCollisions();
+
         bodiesToMove.RemoveAll(body => body.MovementDirection == Vector2.zero);
         foreach (GridBehaviour body in bodiesToMove)
         {
@@ -74,6 +65,8 @@ public class GridManager : MonoBehaviour
     {
         List<GridBehaviour> copy = new List<GridBehaviour>(bodies);
         List<GridTriggerBehaviour> copyT = new List<GridTriggerBehaviour>(throwers);
+
+        StartMove();
 
         while (copy.Count != 0)
         {
@@ -140,6 +133,15 @@ public class GridManager : MonoBehaviour
 
         foreach (var body in bodies)
         {
+            ResolveWalls(body);
+        }
+        foreach (var body in bodies)
+        {
+            ResolveOpposingMovement(body);
+        }
+        foreach (var body in bodies)
+        {
+            ResolveDestinationConflicts(body);
         }
 
         void ResolveWalls(GridBehaviour body)
@@ -148,6 +150,7 @@ public class GridManager : MonoBehaviour
             if (IsWall(destination))
             {
                 body.MovementDirection = Vector2.zero;
+                body.Priority = int.MaxValue;
                 body.OnCollidedWall(destination - body.Position);
 
                 ResolveDestinationConflicts(body);
@@ -156,17 +159,26 @@ public class GridManager : MonoBehaviour
 
         void ResolveDestinationConflicts(GridBehaviour body)
         {
-            var destination = body.Position + body.MovementDirection;
             foreach (var otherBody in bodies)
             {
-                if (otherBody == body) return;
-                var otherDestination = otherBody.Position + otherBody.MovementDirection;
-                if (destination == otherDestination)
+                if (otherBody == body) continue;
+                if (body.Destination == otherBody.Destination)
                 {
-                    var weakest = GetWeakestOf(body, otherBody);
-                    weakest.MovementDirection = Vector2.zero;
-                    weakest.Priority = int.MaxValue;
-                    // TODO: change directions
+                    var (weak, strong) = OrderByPriority(body, otherBody);
+                    weak.MovementDirection = Vector2.zero;
+                    weak.Priority = int.MaxValue;
+                    
+                    weak.OnCollidedBody(
+                        strong.Destination - weak.Position,
+                        strong,
+                        isMyFault: weak == body);
+                    strong.OnCollidedBody(
+                        weak.Position - strong.Destination,
+                        weak,
+                        isMyFault: strong == body);
+
+                    ResolveDestinationConflicts(weak);
+                    if (weak == body) break;
                 }
             }
         }
@@ -176,38 +188,36 @@ public class GridManager : MonoBehaviour
             var destination = body.Position + body.MovementDirection;
             foreach (var otherBody in bodies)
             {
+                if (otherBody == body) continue;
                 if (otherBody.Position == destination && otherBody.MovementDirection == -body.MovementDirection)
                 {
-                    var 
-                    ResolveOpposingMovement(body);
+                    var (weak, strong) = OrderByPriority(body, otherBody);
+                    weak.MovementDirection = strong.MovementDirection;
+                    weak.Priority = strong.Priority;
+
+                    ResolveOpposingMovement(weak);
+                    ResolveDestinationConflicts(weak);
+                    if (weak == body) break;
                 }
             }
         }
     }
 
-    private GridBehaviour GetWeakestOf(GridBehaviour a, GridBehaviour b)
+    private void StartMove()
     {
-        if (a.Priority < b.Priority) return a;
-        if (a.Priority > b.Priority) return b;
-        if (a.Position.x < b.Position.x) return a;
-        if (a.Position.x > b.Position.x) return b;
-        if (a.Position.y < b.Position.y) return a;
-        if (a.Position.y > b.Position.y) return a;
-        throw new Exception("Comparing bodies with same priority and same position.");
+        foreach (GridBehaviour body in bodies)
+        {
+            body.Priority = 0;
+            body.OnMoveStarted();
+        }
     }
-}
 
 
-public enum CollisionType
-{
-    WallCollision,
-    ConflictingDestination,
-    OppositeMovement
-}
-
-public struct CollisionInfo
-{
-    public CollisionType type;
-    public GridBehaviour bodyA;
-    public GridBehaviour bodyB;
+    public static (GridBehaviour weak, GridBehaviour strong) OrderByPriority(GridBehaviour a, GridBehaviour b)
+    {
+        int comparison = new PriorityComparer().Compare(a, b);
+        return comparison <= 0
+            ? (weak: a, strong: b)
+            : (weak: b, strong: a);
+    }
 }
