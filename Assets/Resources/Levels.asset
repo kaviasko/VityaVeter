@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0558c07332086648bb4919b6e0b73fc, type: 3}
+  m_Name: Levels
+  m_EditorClassIdentifier: 
+  packs:
+  - id: 328f2dad4d5b2084388ab3ae44bf8f72
+    coinsToUnlock: 0
+    starsToUnlock: 0
+    levels:
+    - id: fuckyou
+      sceneName: level1
+      totalStars: 0
+    - id: 02c72ed664deb9048988e45b6675f159
+      sceneName: level2
+      totalStars: 0
+    - id: 13c38e2d3003a8743a9090ec6e27d28d
+      sceneName: level3
+      totalStars: 0
+    - id: 662a810fd4c9d894280b2e358c375775
+      sceneName: level4
+      totalStars: 0
+    - id: bdbc758e576eeb44a987a98f64e5c923
+      sceneName: level5
+      totalStars: 0
+    - id: 424ba57415baebd4e839d970ccbacc23
+      sceneName: level6
+      totalStars: 0
+    - id: 3adcc9cb1263a6a488d293d76e0b813c
+      sceneName: level7
+      totalStars: 0
+    - id: 0836f0435b572c84e8c4f7c9a5735bec
+      sceneName: level8
+      totalStars: 0
+    - id: 3cf1cb4ec62171148a671e346337c43c
+      sceneName: level9
+      totalStars: 0
+    - id: f49c609445b4a6042aa9dda85a0ccb2b
+      sceneName: level10
+      totalStars: 0
+  - id: 7b4235949c83d3e46a6c2f380d4b7b50
+    coinsToUnlock: 0
+    starsToUnlock: 0
+    levels:
+    - id: c433cbb4de036b942b9207fccadc3407
+      sceneName: level14
+      totalStars: 0
+    - id: cbda05775190eb34e83cdc03e8fdf516
+      sceneName: level23
+      totalStars: 0
+    - id: d8adec78c7596e14ab403ea1766521f1
+      sceneName: level21
+      totalStars: 0
+    - id: 02fd42e46f79e1944810ec9fa2166841
+      sceneName: level20
+      totalStars: 0
+    - id: cfd451b9115ed4844b6c748885e7ae2a
+      sceneName: level22
+      totalStars: 0
+    - id: 92da7ea3b588daf4f8a64cb580eb23b7
+      sceneName: level16
+      totalStars: 0
+    - id: a0ee481857122f84bb3b09e18e710946
+      sceneName: level17
+      totalStars: 0
+    - id: a661fe79b959dee4db4499e9c23a290d
+      sceneName: level13
+      totalStars: 0
+    - id: 34df8770873978e4a9da4dca1486ade6
+      sceneName: level18
+      totalStars: 0
+    - id: 870ae26b75e2b524697bd30850809e1c
+      sceneName: level25
+      totalStars: 0
+    - id: ecf6c655ee51c0d42ae7d6d562eb80b6
+      sceneName: level15
+      totalStars: 0
+    - id: c9fda8dd6bbc7bc40b898f9614071671
+      sceneName: level12
+      totalStars: 0
+    - id: 4868bc2508721a24da603b28a4af4582
+      sceneName: level19
+      totalStars: 0
+    - id: 2edd52e14a2f8924ca2c7468467c6cd4
+      sceneName: level11
+      totalStars: 0
+    - id: f95fd3ce5d149114aad9240262985723
+      sceneName: level24
+      totalStars: 0

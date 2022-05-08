@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,7 +19,7 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadLevel()
     {
-        StartCoroutine(LoadLevelCoroutine(SceneManager.GetActiveScene().buildIndex + 1));
+        LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void ExitGame()
@@ -37,15 +38,33 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadLevel(int buildIndex)
     {
-        StartCoroutine(LoadLevelCoroutine(buildIndex));
+        StartCoroutine(LoadLevelCoroutine(() =>
+        {
+            SceneManager.LoadScene(buildIndex);
+            return SceneManager.GetSceneByBuildIndex(buildIndex);
+        }));
     }
 
-    IEnumerator LoadLevelCoroutine(int buildindex)
+    public void LoadLevel(string sceneName)
+    {
+        StartCoroutine(LoadLevelCoroutine(() =>
+        {
+            SceneManager.LoadScene(sceneName: sceneName);
+            return SceneManager.GetSceneByName(sceneName);
+        }));
+    }
+
+    public void LoadLevel(Level level)
+    {
+        LoadLevel(level.sceneName);
+    }
+
+    IEnumerator LoadLevelCoroutine(Func<Scene> loadScene)
     {
         transition.SetTrigger("Start");
 
         yield return new WaitForSeconds(1);
 
-        SceneManager.LoadScene(buildindex);
+        var scene = loadScene();
     }
 }

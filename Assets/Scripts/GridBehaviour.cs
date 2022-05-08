@@ -7,6 +7,7 @@ public abstract class GridBehaviour : MonoBehaviour
 {
     public Vector2 Position { get; set; }
     public Vector2 MovementDirection { get; set; }
+    public int Priority { get; set; }
     public bool Removed => removed;
 
     public abstract void OnCollidedWall(Vector2 collisionDirection);

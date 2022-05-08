@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,6 +91,11 @@ public class GridManager : MonoBehaviour
             bodiesMap.Add(body.Position, body);
         }
 
+        foreach (GridBehaviour body in bodiesToMove)
+        {
+            CheckBody(body);
+        }
+
         bool CheckBody(GridBehaviour body)
         {
             if (!isMovable.ContainsKey(body))
@@ -125,10 +131,83 @@ public class GridManager : MonoBehaviour
             }
             return isMovable[body];
         }
+    }
 
-        foreach (GridBehaviour body in bodiesToMove)
+
+    public void ResolveCollisions()
+    {
+
+
+        foreach (var body in bodies)
         {
-            CheckBody(body);
+        }
+
+        void ResolveWalls(GridBehaviour body)
+        {
+            var destination = body.Position + body.MovementDirection;
+            if (IsWall(destination))
+            {
+                body.MovementDirection = Vector2.zero;
+                body.OnCollidedWall(destination - body.Position);
+
+                ResolveDestinationConflicts(body);
+            }
+        }
+
+        void ResolveDestinationConflicts(GridBehaviour body)
+        {
+            var destination = body.Position + body.MovementDirection;
+            foreach (var otherBody in bodies)
+            {
+                if (otherBody == body) return;
+                var otherDestination = otherBody.Position + otherBody.MovementDirection;
+                if (destination == otherDestination)
+                {
+                    var weakest = GetWeakestOf(body, otherBody);
+                    weakest.MovementDirection = Vector2.zero;
+                    weakest.Priority = int.MaxValue;
+                    // TODO: change directions
+                }
+            }
+        }
+
+        void ResolveOpposingMovement(GridBehaviour body)
+        {
+            var destination = body.Position + body.MovementDirection;
+            foreach (var otherBody in bodies)
+            {
+                if (otherBody.Position == destination && otherBody.MovementDirection == -body.MovementDirection)
+                {
+                    var 
+                    ResolveOpposingMovement(body);
+                }
+            }
         }
     }
+
+    private GridBehaviour GetWeakestOf(GridBehaviour a, GridBehaviour b)
+    {
+        if (a.Priority < b.Priority) return a;
+        if (a.Priority > b.Priority) return b;
+        if (a.Position.x < b.Position.x) return a;
+        if (a.Position.x > b.Position.x) return b;
+        if (a.Position.y < b.Position.y) return a;
+        if (a.Position.y > b.Position.y) return a;
+        throw new Exception("Comparing bodies with same priority and same position.");
+    }
+}
+
+
+public enum CollisionType
+{
+    WallCollision,
+    ConflictingDestination,
+    OppositeMovement
+}
+
+public struct CollisionInfo
+{
+    public CollisionType type;
+    public GridBehaviour bodyA;
+    public GridBehaviour bodyB;
 }

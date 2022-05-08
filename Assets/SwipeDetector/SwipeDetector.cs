@@ -22,6 +22,24 @@ public class SwipeDetector : MonoBehaviour
         down = false;
         left = false;
         right = false;
+
+#if UNITY_EDITOR
+        if (Input.GetMouseButtonDown(0))
+        {
+            fingerUpPosition = Input.mousePosition;
+            fingerDownPosition = Input.mousePosition;
+        }
+        else if (!detectSwipeOnlyAfterRelease && Input.GetMouseButton(0))
+        {
+            fingerDownPosition = Input.mousePosition;
+            DetectSwipe();
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            fingerDownPosition = Input.mousePosition;
+            DetectSwipe();
+        }
+#else
         foreach (Touch touch in Input.touches)
         {
             if (touch.phase == TouchPhase.Began)
@@ -42,7 +60,7 @@ public class SwipeDetector : MonoBehaviour
                 DetectSwipe();
             }
         }
-
+#endif
     }
 
     private void DetectSwipe()

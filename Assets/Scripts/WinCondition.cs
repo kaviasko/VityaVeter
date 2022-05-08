@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Progress;
 
 public class WinCondition : MonoBehaviour
 {
     [SerializeField] private EventManager eventManager;
     [SerializeField] private LevelLoader levelLoader;
+    [SerializeField] private LevelsConfig levelsConfig;
 
     private int enemiesLeft = 0;
 
@@ -34,6 +36,24 @@ public class WinCondition : MonoBehaviour
 
     public void OnWin()
     {
-        levelLoader.LoadLevel();
+        if (levelsConfig != null)
+        {
+            levelsConfig.GetLevelByScene(gameObject.scene).complete = true;
+            Level thisLevel = levelsConfig.GetLevelByScene(gameObject.scene);
+            Level nextLevel = levelsConfig.GetNextLevel(thisLevel);
+
+            thisLevel.complete = true;
+            nextLevel.enabled = true;
+            levelsConfig.Save();
+
+            levelLoader.LoadLevel(nextLevel);
+        }
+        else
+        {
+            Debug.LogError($"Win Condition of level '{gameObject.scene.name}' has no LevelsConfig. Please set it :*", this);
+            Debug.Break();
+
+            levelLoader.LoadLevel();
+        }
     }
 }
