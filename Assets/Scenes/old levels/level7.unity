@@ -291,6 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventManager: {fileID: 11400000, guid: b145e736dc277d444914406713e3a09a, type: 2}
   levelLoader: {fileID: 257702002}
+  levelsConfig: {fileID: 0}
 --- !u!1001 &257702001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9119,7 +9120,7 @@ PrefabInstance:
     - target: {fileID: 1817797816249369819, guid: cf19e5a9b3961024383deff97250892e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 1817797816249369819, guid: cf19e5a9b3961024383deff97250892e,
         type: 3}
